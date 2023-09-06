@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="HOME.CSS" />
+    <title>Search Results</title>
+</head>
+<body>
+    <nav class="flex-div">
+        <script src="./common/header.js"></script>
+    </nav>
+
+    <!-- -----sidebar--------- -->
+    <div class="sidebar">
+        <script src="./common/sidebar.js"></script>
+    </div>
+        <!-- -----main--- -->
+        <div class="container">
+            <div class="list-container">
+                
+            </div>
+        </div>
+    <script>
+        const videoIds = localStorage.getItem("videoId");
+        const VIDEO_KEY = "AIzaSyCGLXN9fJuDBWS_y2tUkpNOn4lbA3TYjHI";
+        const searchVideoURL =  `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoIds}&key=${VIDEO_KEY}`;
+
+        const getVideos = async()=>{
+            const videoData = await fetch(searchVideoURL);
+            const videoResults = await videoData.json();
+            displaySearchContents(videoResults.items);
+        }
+
+        getVideos();
+
+        const displaySearchContents = (items)=>{
+            items.forEach(({id,snippet,statistics})=>{
+       const element = `<div class="vid-list">
+        <a href="play-video.html?v=${id}"><img src="${snippet.thumbnails.medium.url}" class="thumbnail" /></a>
+        <div class="flex-div">
+            <img src="images/Jack.png" />
+            <div class="vid-info">
+                <a href="play-video.html?v=${id}">${snippet.localized.title}</a>
+                <p>${snippet.channelTitle}</p>
+                <p>${statistics.viewCount} &bull; in 1 days</p>
+            </div>
+        </div>
+    </div>`
+
+
+    document.getElementsByClassName("list-container")[0].innerHTML +=element;
+    });
+        }
+    </script>
+</body>
+</html>
