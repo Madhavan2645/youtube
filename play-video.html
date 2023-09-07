@@ -28,6 +28,18 @@
       <div class="right-sidebar"></div>
     </div>
   </div>
+  <div class="sharePopup">
+        <div class="shareContainer">
+          <ul id="shareVideo">
+            <li id="embed">EMbed</li>
+            <li id="link">Link</li>
+          </ul>
+            <div class="shareInput">
+              <input id="shareValue" type="text" name="shareValue"/>
+            </div>
+        </div>
+        
+      </div>
   <script>
     const urlString = window.location.href;
     const videoId = urlString.split("=")[1];
@@ -65,7 +77,7 @@
                         <div>
                             <a><img src="images/like.png" id="likeButton${id}" class="like-button"><span id="likeCount${id}">${statistics.likeCount}</span></a>
                             <a href=""><img src="images/dislike.png">2</a>
-                            <a href=""><img src="images/share.png" id="shareButton${id}" class="share-Button">Share</a>
+                            <a href=""><img src="images/share.png">Share</a>
                             <a href=""><img src="images/save.png">Save</a>
                         </div>
                     </div>
@@ -176,6 +188,26 @@
       });
     };
     getVideoList1();
+    //share functionality
+    const shareElement = document.getElementById("shareVideo");
+    shareElement.addEventListener("click", (event) => {
+      shareLink(event.target.id);
+    })
+    const shareLink = (id) => {
+      switch (id) {
+        case "embed":
+          document.getElementById("shareValue").value = "EmbedLInk";
+          break;
+
+        case "link":
+          document.getElementById("shareValue").value = "VideoLink";
+          break;
+
+        default:
+          document.getElementById("shareValue").value = "VideoLink";
+          break;
+      }
+    }
   </script>
 </body>
 
